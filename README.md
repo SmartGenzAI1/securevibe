@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # SecureVibe - Enterprise-Grade Authentication Service
 
 <div align="center">
@@ -705,3 +706,7 @@ For support, email support@securevibe.com or join our Discord community.
 ---
 
 **Protected by SecureVibe** 🛡️
+=======
+# securevibe
+securevibe
+>>>>>>> 5f0a9dd1c1f7ebd93f78f6bff6bace4021ebb0f7
