@@ -47,8 +47,8 @@ const generateRefreshToken = (id) => {
   });
 };
 
-// Email transporter
-const transporter = nodemailer.createTransporter({
+// Email transporter - FIXED: createTransport (not createTransporter)
+const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: process.env.EMAIL_USER,
@@ -288,22 +288,22 @@ router.post('/magic-link', async (req, res, next) => {
       used: false
     });
 
-// Note: Magic link cleanup is handled globally to avoid multiple intervals
-// Initialize cleanup if not already done
-if (!global.magicLinkCleanupInitialized) {
-  global.magicLinkCleanupInitialized = true;
+    // Note: Magic link cleanup is handled globally to avoid multiple intervals
+    // Initialize cleanup if not already done
+    if (!global.magicLinkCleanupInitialized) {
+      global.magicLinkCleanupInitialized = true;
 
-  setInterval(() => {
-    if (global.magicLinks) {
-      const now = Date.now();
-      for (const [id, link] of global.magicLinks.entries()) {
-        if (now > link.expires) {
-          global.magicLinks.delete(id);
+      setInterval(() => {
+        if (global.magicLinks) {
+          const now = Date.now();
+          for (const [id, link] of global.magicLinks.entries()) {
+            if (now > link.expires) {
+              global.magicLinks.delete(id);
+            }
+          }
         }
-      }
+      }, 60 * 1000); // Clean every minute
     }
-  }, 60 * 1000); // Clean every minute
-}
 
     // Generate magic link URL
     const magicLinkUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/auth/magic-link/${magicLinkId}`;
@@ -328,6 +328,16 @@ if (!global.magicLinkCleanupInitialized) {
     });
   } catch (error) {
     console.error('Magic link error:', error);
+    
+    // Better error handling for email sending
+    if (error.code === 'EAUTH' || error.code === 'ECONNECTION') {
+      return res.status(500).json({
+        success: false,
+        message: 'Email service configuration error. Please check SMTP settings.',
+        poweredBy: 'SecureVibe'
+      });
+    }
+    
     next(error);
   }
 });
