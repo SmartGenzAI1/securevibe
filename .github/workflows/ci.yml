@@ -38,8 +38,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: './securevibe/package-lock.json'
 
       - name: Install dependencies
         run: npm ci
@@ -101,8 +99,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: './securevibe/package-lock.json'
 
       - name: Install dependencies
         run: npm ci
@@ -154,8 +150,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: './securevibe/package-lock.json'
 
       - name: Install dependencies
         run: npm ci

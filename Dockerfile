@@ -72,7 +72,7 @@ COPY --chown=securevibe:securevibe securevibe/routes ./routes/
 COPY --chown=securevibe:securevibe securevibe/utils ./utils/
 COPY --chown=securevibe:securevibe securevibe/public ./public/
 COPY --chown=securevibe:securevibe securevibe/client-sdk ./client-sdk/
-COPY --chown=securevibe:securevibe securevibe/types ./types/
+# Types directory is optional for runtime, skip copying to avoid build issues
 
 # Copy built web assets if they exist
 COPY --from=builder --chown=securevibe:securevibe /app/dist ./dist
